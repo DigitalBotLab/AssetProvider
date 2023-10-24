@@ -33,8 +33,9 @@ class OmniAssetproviderDigitalbotlabExtension(omni.ext.IExt):
         with self._window.frame:
             with ui.VStack():
                 #ui.Label("Prim Path:", width = 100)
+                ui.Button("debug_authenticate", height = 20, clicked_fn = self.debug_authenticate)
+                ui.Button("debug_token", height = 20, clicked_fn = self.debug_token)
                 ui.Button("Debug", height = 20, clicked_fn = self.debug)
-                ui.Button("Debug", height = 20, clicked_fn = self.debug_token)
 
 
 
@@ -45,7 +46,7 @@ class OmniAssetproviderDigitalbotlabExtension(omni.ext.IExt):
         self._asset_provider = None
         self._asset_service = None
 
-    def debug(self):
+    def debug_authenticate(self):
         
         async def authenticate():
             params = {"email": "10@qq.com", "password": "97654321abc"}
@@ -68,3 +69,21 @@ class OmniAssetproviderDigitalbotlabExtension(omni.ext.IExt):
                     print("response", response)
         
         asyncio.ensure_future(verify_token())
+
+    def debug(self):
+        print("debug")
+        
+        STORE_URL = "http://localhost:8000/api/omniverse/assets"
+        params = {}
+        params["page"] = 1
+
+        async def search():
+            # Uncomment once valid Store URL has been provided
+            async with aiohttp.ClientSession() as session:
+                async with session.get(f"{STORE_URL}", params=params) as resp:
+                    result = await resp.read()
+                    result = await resp.json()
+                    items = result
+                    print("items", items)
+        
+        asyncio.ensure_future(search())

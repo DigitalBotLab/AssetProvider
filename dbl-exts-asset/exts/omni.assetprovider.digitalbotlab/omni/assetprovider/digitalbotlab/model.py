@@ -69,6 +69,46 @@ class DBLAssetProvider(BaseAssetStore):
 
         print("[model] params", params)
 
+        STORE_URL = "http://localhost:8000/api/omniverse/assets"
+        THUMBNAIL_URL = "http://localhost:8000/image/"
+        # Uncomment once valid Store URL has been provided
+        async with aiohttp.ClientSession() as session:
+            async with session.get(f"{STORE_URL}", params=params) as resp:
+                result = await resp.read()
+                result = await resp.json()
+                items = result
+
+        print("[model] items", items)
+
+        assets: List[AssetModel] = []
+
+        
+        # Create AssetModel based off of JSON data
+        for item in items:
+            thumbnail = item.get("thumbnail", "")
+            thumbnail_name = thumbnail.split("/")[-1]
+            assets.append(
+                AssetModel(
+                  identifier=item.get("id", ""),
+                  name=item.get("name", ""),
+                  published_at=item.get("pub_at", ""),
+                  categories=[item.get("manufacturer", "robot")],
+                  tags=item.get("searchField", "").split(","),
+                  vendor=PROVIDER_ID,
+                  product_url=item.get("url", ""),
+                  download_url=item.get("download_url", ""),
+                  price=item.get("price", 0),
+                  thumbnail= THUMBNAIL_URL + thumbnail_name #"http://localhost:8000/image/258.png", #item.get("thumbnail", ""),
+                )
+            )
+
+        # Are there more assets that we can load?
+        more = True
+        if search_criteria.page.size and len(assets) < search_criteria.page.size:
+            more = False
+
+        return (assets, more)
+
         # Uncomment once valid Store URL has been provided
         async with aiohttp.ClientSession() as session:
             async with session.get(f"{STORE_URL}", params=params) as resp:

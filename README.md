@@ -7,7 +7,7 @@
 
 ![preview](Images/preview.png)
 
-The Digital Bot Lab's Insiderobo Connector is a cutting-edge solution designed to seamlessly connect our extensive digital robot collection from `ROS` with the powerful `NVIDIA Omniverse platform`. With our connector, users can effortlessly import digital robots in `.usd` format, enabling them to leverage the full potential of Omniverse applications.
+The Digital Bot Lab's Asset Provider Extension is a cutting-edge solution designed to seamlessly connect our extensive digital robot collection from `ROS` with the powerful `NVIDIA Omniverse platform`. With our connector, users can effortlessly import digital robots in `.usd` format, enabling them to leverage the full potential of Omniverse applications.
 
 ## 1. Get Started
 

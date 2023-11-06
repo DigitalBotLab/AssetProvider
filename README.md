@@ -37,6 +37,12 @@ Add your `<path_to_this_repository>/AssetProvider/dbl-exts-asset/exts` to the se
 
 ![Extension](Images/extension_import.png)
 
+### 1.3 Enable the extension
+
+![Enable](Images/extension_enable.jpg)
+
+At the `Third Party` filter, enable our extension.
+
 Now, after opening the `Window` -> `Asset Store (Beta)` Tab, you can see this extension by filter the asset provider into `DIGITAL BOT LAB`.
 
 

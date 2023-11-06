@@ -10,10 +10,15 @@ import omni.ext
 from omni.services.browser.asset import get_instance as get_asset_services
 
 from .model import DBLAssetProvider
-from .constants import SETTING_STORE_ENABLE 
+from .constants import SETTING_STORE_ENABLE, IN_RELEASE, DBL_ASSETPROVIDER_INTRO
 
 import aiohttp
 import asyncio
+import pathlib
+
+EXTENSION_FOLDER_PATH = pathlib.Path(
+    omni.kit.app.get_app().get_extension_manager().get_extension_path_by_module(__name__)
+)
 
 # Any class derived from `omni.ext.IExt` in top level module (defined in `python.modules` of `extension.toml`) will be
 # instantiated when extension gets enabled and `on_startup(ext_id)` will be called. Later when extension gets disabled
@@ -29,13 +34,25 @@ class OmniAssetproviderDigitalbotlabExtension(omni.ext.IExt):
         carb.settings.get_settings().set(SETTING_STORE_ENABLE, True)
         print("what", carb.settings.get_settings().get(SETTING_STORE_ENABLE))  
 
-        self._window = ui.Window("DBL Asset Debug", width=300, height=300)
+        self._window = ui.Window("Digital Bot Lab: AssetProvider", width=300, height=300)
         with self._window.frame:
             with ui.VStack():
-                #ui.Label("Prim Path:", width = 100)
-                ui.Button("debug_authenticate", height = 20, clicked_fn = self.debug_authenticate)
-                ui.Button("debug_token", height = 20, clicked_fn = self.debug_token)
-                ui.Button("Debug", height = 20, clicked_fn = self.debug)
+                ui.ImageWithProvider(
+                        f"{EXTENSION_FOLDER_PATH}/data/logo.png",
+                        width=30,
+                        height=30,
+                    )
+                ui.Label("Introduction:", height = 20)
+                #intro_field = ui.StringField(multiline = True, readonly = True)
+                model = ui.SimpleStringModel(DBL_ASSETPROVIDER_INTRO)
+                field = ui.StringField(model, multiline=True, readonly=True, height=200) 
+                # intro_field.model.set_value()
+                with ui.VStack(visible= not IN_RELEASE):
+                    ui.Button("debug_authenticate", height = 20, clicked_fn = self.debug_authenticate)
+                    ui.Button("debug_token", height = 20, clicked_fn = self.debug_token)
+                    ui.Button("Debug", height = 20, clicked_fn = self.debug)
+
+                
 
 
 

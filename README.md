@@ -3,11 +3,11 @@
 ![Build Version](https://img.shields.io/badge/Build-v0.2-orange)
 ![Release Version](https://img.shields.io/badge/Release-v0.1-blue)
 
-# Overview: Bridging the Gap Between Digital Robots and Omniverse
+# Experience thousands of robots using Nvidia Omniverse
 
 ![preview](Images/preview.png)
 
-The Digital Bot Lab's Insiderobo Connector is a cutting-edge solution designed to seamlessly connect our extensive digital robot collection with the powerful NVIDIA Omniverse platform. With our connector, users can effortlessly import digital robots in .usd format, enabling them to leverage the full potential of Omniverse applications.
+The Digital Bot Lab's Insiderobo Connector is a cutting-edge solution designed to seamlessly connect our extensive digital robot collection from `ROS` with the powerful `NVIDIA Omniverse platform`. With our connector, users can effortlessly import digital robots in `.usd` format, enabling them to leverage the full potential of Omniverse applications.
 
 ## 1. Get Started
 

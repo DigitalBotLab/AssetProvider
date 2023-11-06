@@ -11,7 +11,7 @@ from typing import Dict, List, Optional, Union, Tuple
 import aiohttp
 
 from omni.services.browser.asset import BaseAssetStore, AssetModel, SearchCriteria, ProviderModel
-from .constants import SETTING_STORE_ENABLE
+from .constants import SETTING_STORE_ENABLE, STORE_URL, THUMBNAIL_URL
 from pathlib import Path
 
 CURRENT_PATH = Path(__file__).parent
@@ -19,9 +19,6 @@ DATA_PATH = CURRENT_PATH.parent.parent.parent.joinpath("data")
 
 # The name of your company
 PROVIDER_ID = "Digital Bot Lab"
-# The URL location of your API
-STORE_URL = "https://evermotion.org/control/querry.php"
-
 
 class DBLAssetProvider(BaseAssetStore):
     """
@@ -69,8 +66,6 @@ class DBLAssetProvider(BaseAssetStore):
 
         print("[model] params", params)
 
-        STORE_URL = "http://localhost:8000/api/omniverse/assets"
-        THUMBNAIL_URL = "http://localhost:8000/image/"
         # Uncomment once valid Store URL has been provided
         async with aiohttp.ClientSession() as session:
             async with session.get(f"{STORE_URL}", params=params) as resp:
@@ -93,7 +88,7 @@ class DBLAssetProvider(BaseAssetStore):
                   name=item.get("name", ""),
                   published_at=item.get("pub_at", ""),
                   categories=[item.get("manufacturer", "robot")],
-                  tags=item.get("searchField", "").split(","),
+                  tags=item.get("searchField", []),
                   vendor=PROVIDER_ID,
                   product_url=item.get("url", ""),
                   download_url=item.get("download_url", ""),
@@ -103,6 +98,7 @@ class DBLAssetProvider(BaseAssetStore):
             )
 
         # Are there more assets that we can load?
+        print("[model] assets", len(assets), search_criteria.page.size)
         more = True
         if search_criteria.page.size and len(assets) < search_criteria.page.size:
             more = False
